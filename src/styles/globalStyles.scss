@@ -1,0 +1,59 @@
+html {
+    font-size: 16px;
+    font-weight: 300;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+}
+* {
+    box-sizing: inherit;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+h4 {
+    font-size: 1.3em;
+    font-weight: 400;
+    margin-top: 0.3em;
+    margin-bottom: 1em;
+}
+h5 {
+    font-size: 1.2em;
+    font-weight: 200;
+    margin: 0;
+}
+
+.view {
+    width: 100%;
+    padding: 20px;
+}
+
+.centered-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.base-input-container {
+    position: relative;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.base-input {
+    width: 100%;
+    padding: 0.5em;
+    font-size: 0.9em;
+    border-radius: $border-radius;
+    border: 1px solid $color-separator;
+    &:focus {
+        border-color: $color-primary;
+        & ~ label {
+            color: $color-primary;
+        }
+    }
+}
+
+.base-input-label {
+    font-size: 0.8em;
+    color: $color-light-text;
+}

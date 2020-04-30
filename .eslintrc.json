@@ -1,0 +1,41 @@
+{
+    "root": true,
+    "env": {
+        "node": true
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts"]
+            },
+            "alias": {
+                "map": [["@", "./src"]]
+            }
+        }
+    },
+    "plugins": ["import"],
+    "extends": [
+        "plugin:vue/essential",
+        "airbnb-base",
+        "eslint:recommended",
+        "@vue/typescript/recommended",
+        "@vue/prettier",
+        "@vue/prettier/@typescript-eslint"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2020
+    },
+    "rules": {
+        "no-console": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ]
+    }
+}
