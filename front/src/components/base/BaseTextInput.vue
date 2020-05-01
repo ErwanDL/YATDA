@@ -12,6 +12,7 @@
             v-else
             v-bind="$attrs"
             type="text"
+            :style="inputStyle"
             :class="classes"
             :maxlength="maxLength || ''"
             v-bind:value="value"
@@ -32,7 +33,6 @@ export default Vue.extend({
         },
         label: {
             type: String,
-            required: true,
         },
         multiline: {
             type: Boolean,
@@ -44,6 +44,10 @@ export default Vue.extend({
         },
         maxLength: {
             type: Number,
+        },
+        inputStyle: {
+            type: String,
+            default: "",
         },
     },
     computed: {
@@ -76,9 +80,7 @@ $animation-delay: 0.1s;
 .text-input {
     resize: none;
     &:not(:focus) {
-        border-left-color: transparent;
-        border-right-color: transparent;
-        border-top-color: transparent;
+        border-color: transparent;
     }
     transition: border-color $animation-duration ease-out;
     &:hover,

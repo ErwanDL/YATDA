@@ -9,11 +9,6 @@
 import Vue from "vue";
 import TaskCard from "@/components/TaskCard.vue";
 
-type TodoItemProps = {
-    message: string;
-    id: number;
-};
-
 export default Vue.extend({
     name: "App",
     data() {
@@ -21,15 +16,18 @@ export default Vue.extend({
             subtasks: [
                 {
                     description: "Setup Maven project",
-                    duration: "1",
+                    duration: 1,
+                    completed: false,
                 },
                 {
                     description: "Refactor poller code",
-                    duration: "2",
+                    duration: 2,
+                    completed: false,
                 },
             ],
         };
     },
+
     components: {
         TaskCard,
     },

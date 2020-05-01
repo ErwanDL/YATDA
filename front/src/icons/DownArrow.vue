@@ -7,6 +7,7 @@
         :width="width"
         :height="height"
         x="0px"
+        fill="black"
         y="0px"
         viewBox="0 0 490.656 490.656"
         style="enable-background:new 0 0 490.656 490.656;"

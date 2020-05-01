@@ -1,33 +1,31 @@
 <template>
     <base-card :title="taskName" style="width: 350px;">
-        <ul>
-            <li
+        <table>
+            <tr>
+                <th></th>
+                <th style="text-align: left; padding-left: 0.5em;">Subtasks</th>
+                <th style="width: 15%;">Duration</th>
+            </tr>
+            <template
                 v-for="(task, index) in subtasks"
-                :key="task"
                 style="list-style-type : none;"
             >
-                <Subtask
-                    :index="index + 1"
-                    :description="task.description"
-                    :duration="task.duration"
-                />
-            </li>
-        </ul>
+                <Subtask :key="index" :index="index + 1" v-bind="task" />
+            </template>
+        </table>
+
         <div
             style="display: flex; justify-content: space-between; width: 100%;"
         >
-            <base-button variant="contained" style="alignSelf: flex-end;">
+            <base-button style="alignSelf: flex-end;">
                 <div style="display: flex;">
-                    <PlusSign
-                        width="1em"
-                        fill="#fff"
-                        style="margin-right: 8px;"
-                    />New subtask
+                    <PlusSign width="1em" fill="#fff" class="plus-sign" />New
+                    subtask
                 </div>
             </base-button>
-            <base-button color="error" style="alignSelf: flex-end;">
-                Archive task
-            </base-button>
+            <base-button color="error" style="alignSelf: flex-end;"
+                >Archive task</base-button
+            >
         </div>
     </base-card>
 </template>
@@ -36,9 +34,10 @@ import Vue from "vue";
 import Subtask from "@/components/Subtask.vue";
 import PlusSign from "@/icons/PlusSign.vue";
 
-type Subtask = {
+type SubtaskType = {
     description: string;
     duration: number;
+    completed: boolean;
 };
 
 export default Vue.extend({
@@ -48,7 +47,7 @@ export default Vue.extend({
             required: true,
         },
         subtasks: {
-            type: Object as () => Subtask[],
+            type: Array as () => SubtaskType[],
             required: true,
         },
     },
@@ -58,4 +57,15 @@ export default Vue.extend({
     },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+th {
+    font-size: 0.9em;
+    font-weight: 200;
+    color: $color-light-text;
+}
+
+.plus-sign {
+    fill: $color-primary;
+    margin-right: 8px;
+}
+</style>
