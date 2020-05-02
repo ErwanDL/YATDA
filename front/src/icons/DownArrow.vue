@@ -4,8 +4,6 @@
         id="Capa_1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
-        :width="width"
-        :height="height"
         x="0px"
         fill="black"
         y="0px"
@@ -27,14 +25,5 @@
 <script lang="ts">
 import Vue from "vue";
 
-export default Vue.extend({
-    props: {
-        width: {
-            type: [Number, String],
-        },
-        height: {
-            type: [Number, String],
-        },
-    },
-});
+export default Vue.extend({});
 </script>

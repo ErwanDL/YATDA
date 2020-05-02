@@ -2,7 +2,7 @@
     <div class="base-input-container">
         <select
             class="base-input select"
-            v-bind:value="value"
+            :value="value"
             v-on:input="$emit('input', $event.target.value)"
         >
             <slot />

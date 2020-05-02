@@ -3,13 +3,15 @@
         <input
             type="checkbox"
             style="display: none;"
-            v-bind:checked="value"
-            v-on:input="$emit('input', Boolean($event.target.checked))"
+            :checked="value"
+            @input="$emit('input', Boolean($event.target.checked))"
         />
+        <CheckMark class="checkmark" />
     </label>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import CheckMark from "@/icons/CheckMark.vue";
 
 export default Vue.extend({
     props: {
@@ -19,10 +21,16 @@ export default Vue.extend({
             default: false,
         },
     },
+    components: {
+        CheckMark,
+    },
 });
 </script>
 <style lang="scss" scoped>
 .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 15px;
     height: 15px;
     border: 1px solid $color-separator;
@@ -36,5 +44,11 @@ export default Vue.extend({
 .container-active {
     background-color: $color-primary;
     border-color: $color-primary;
+}
+
+.checkmark {
+    width: 10px;
+    height: 10px;
+    fill: $color-white-bg;
 }
 </style>

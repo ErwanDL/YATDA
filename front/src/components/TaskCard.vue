@@ -1,67 +1,140 @@
 <template>
-    <base-card :title="taskName" style="width: 350px;">
-        <table>
-            <tr>
-                <th></th>
-                <th style="text-align: left; padding-left: 0.5em;">Subtasks</th>
-                <th style="width: 15%;">Duration</th>
-            </tr>
-            <template
-                v-for="(task, index) in subtasks"
-                style="list-style-type : none;"
-            >
-                <Subtask :key="index" :index="index + 1" v-bind="task" />
-            </template>
-        </table>
+    <BaseCard class="container">
+        <BaseTextInput
+            :value="task.title"
+            inputStyle="font-size: 1.3em;
+                        font-weight: 400;
+                        margin-top: 0.3em;
+                        margin-bottom: 1em;"
+            @input="update('title', $event)"
+            :max-length="30"
+        />
+        <div v-if="task.subtasks.length > 0">
+            <table>
+                <tr>
+                    <th></th>
+                    <th style="text-align: left; padding-left: 0.5em;">
+                        Subtasks
+                    </th>
+                    <th style="width: 15%;">Duration</th>
+                    <th style="width: 10%;"></th>
+                </tr>
+                <template v-for="(subtask, index) in task.subtasks">
+                    <Subtask
+                        :key="subtask.id"
+                        v-bind="subtask"
+                        @update="updateSubtask($event, index)"
+                        @delete="deleteSubtask(index)"
+                    />
+                </template>
+            </table>
 
-        <div
-            style="display: flex; justify-content: space-between; width: 100%;"
-        >
-            <base-button style="alignSelf: flex-end;">
+            <p style="margin-top: 2em;">Only {{ daysLeft }} of work left !</p>
+        </div>
+
+        <p v-else>You have not added any subtask yet.</p>
+
+        <div class="buttons-section">
+            <base-button @click="pushNewSubtask()" style="alignSelf: flex-end;">
                 <div style="display: flex;">
                     <PlusSign width="1em" fill="#fff" class="plus-sign" />New
                     subtask
                 </div>
             </base-button>
-            <base-button color="error" style="alignSelf: flex-end;"
+            <base-button
+                @click="$emit('delete')"
+                color="error"
+                style="alignSelf: flex-end;"
                 >Archive task</base-button
             >
         </div>
-    </base-card>
+    </BaseCard>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import Subtask from "@/components/Subtask.vue";
 import PlusSign from "@/icons/PlusSign.vue";
-
-type SubtaskType = {
-    description: string;
-    duration: number;
-    completed: boolean;
-};
+// @ts-ignore (false positive)
+import { TaskType, SubtaskType } from "@/components/types.ts";
+// @ts-ignore (false positive)
+import KeygenMixin from "@/components/mixins/KeygenMixin";
 
 export default Vue.extend({
     props: {
-        taskName: {
-            type: String,
+        task: {
+            type: Object as () => TaskType,
             required: true,
         },
-        subtasks: {
-            type: Array as () => SubtaskType[],
-            required: true,
+    },
+    computed: {
+        daysLeft(): string {
+            const nbDays = this.task.subtasks.reduce(
+                (acc: number, subtask: SubtaskType) =>
+                    acc + (subtask.completed ? 0 : subtask.duration),
+                0,
+            );
+            return `${nbDays} day${nbDays > 1 ? "s" : ""}`;
+        },
+    },
+    methods: {
+        update<T>(key: string, newValue: T): void {
+            this.$emit("update", { ...this.$props.task, [key]: newValue });
+        },
+        updateSubtask(modifiedSubtask: SubtaskType, index: number): void {
+            this.update("subtasks", [
+                ...this.$props.task.subtasks.slice(0, index),
+                modifiedSubtask,
+                ...this.$props.task.subtasks.slice(index + 1),
+            ]);
+        },
+        pushNewSubtask(): void {
+            this.$emit("update", {
+                ...this.$props.task,
+                subtasks: [
+                    ...this.$props.task.subtasks,
+                    {
+                        // @ts-ignore (false positive)
+                        id: this.generateKey(),
+                        description: "New subtask",
+                        duration: 1,
+                        completed: false,
+                    },
+                ],
+            });
+        },
+        deleteSubtask(index: number): void {
+            this.$emit("update", {
+                ...this.$props.task,
+                subtasks: [
+                    ...this.$props.task.subtasks.slice(0, index),
+                    ...this.$props.task.subtasks.slice(index + 1),
+                ],
+            });
         },
     },
     components: {
         Subtask,
         PlusSign,
     },
+    mixins: [KeygenMixin],
 });
 </script>
 <style lang="scss" scoped>
+.container {
+    width: $card-width;
+}
+
 th {
     font-size: 0.9em;
     font-weight: 200;
     color: $color-light-text;
+}
+
+.buttons-section {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 0.5em;
 }
 
 .plus-sign {

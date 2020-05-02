@@ -2,6 +2,7 @@
     "tabWidth": 4,
     "trailingComma": "all",
     "htmlWhitespaceSensitivity": "css",
+    "printWidth": 80,
     "overrides": [
         {
             "files": "*.vue",

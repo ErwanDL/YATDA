@@ -1,5 +1,5 @@
 <template>
-    <button :class="classes">
+    <button @click="$emit('click', $event)" :class="classes">
         <slot />
     </button>
 </template>
@@ -70,16 +70,16 @@ button:enabled {
 }
 
 .contained {
-    box-shadow: 0 1px 2px grey;
+    box-shadow: 0 1px 2px $color-shadow;
     color: $color-white-bg;
-    transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
+    transition: box-shadow 0.15s ease-out, transform 0.15s ease-out;
 }
 .contained:disabled {
     box-shadow: none;
     background: $color-darker-bg;
 }
 .contained:hover:enabled:not(:active) {
-    box-shadow: 0 2px 6px grey;
+    box-shadow: 0 2px 6px $color-shadow;
     transform: translate(0px, -1px);
     filter: brightness(105%);
 }
@@ -91,7 +91,7 @@ button:enabled {
 .text {
     box-shadow: none;
     background-color: rgba(255, 255, 255, 0);
-    transition: background-color 0.5s ease-in;
+    transition: background-color 0.3s ease-in;
     &:disabled {
         color: $color-separator;
     }
@@ -105,8 +105,8 @@ button:enabled {
             box-sizing: inherit;
             content: "";
             position: absolute;
-            transition: height 0.25s ease-out, width 0.25s ease-out 0.25s,
-                border-width 0s 0.5s;
+            transition: height 0.15s ease-out, width 0.15s ease-out 0.15s,
+                border-width 0s 0.3s;
         }
         &::before {
             top: 0;
@@ -117,12 +117,12 @@ button:enabled {
             right: 0;
         }
         &:hover {
-            transition: background-color 0.25s ease-in 0.25s;
+            transition: background-color 0.15s ease-in 0.15s;
             &::after,
             &::before {
                 width: 100%;
                 height: 100%;
-                transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+                transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
             }
             &::before {
                 border-width: 1px 1px 0 0;
@@ -132,7 +132,7 @@ button:enabled {
             }
         }
         &:active {
-            transition: background-color 0.25s;
+            transition: background-color 0.15s;
         }
     }
 }

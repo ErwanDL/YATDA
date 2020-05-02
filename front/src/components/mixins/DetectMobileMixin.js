@@ -1,9 +1,9 @@
 import Vue from "vue";
 
-export default Vue.extend({
+export default {
     computed: {
         isOnMobile() {
             return document.body.clientWidth < 400;
         },
     },
-});
+};

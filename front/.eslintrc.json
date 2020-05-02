@@ -36,6 +36,7 @@
                 "ts": "never",
                 "tsx": "never"
             }
-        ]
+        ],
+        "@typescript-eslint/ban-ts-ignore": "off"
     }
 }

@@ -1,6 +1,5 @@
 <template>
     <div class="card">
-        <h4 v-if="title">{{ title }}</h4>
         <slot />
     </div>
 </template>
@@ -25,6 +24,6 @@ export default Vue.extend({
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    box-shadow: 1px 1px 5px grey;
+    box-shadow: 1px 1px 5px $color-shadow;
 }
 </style>

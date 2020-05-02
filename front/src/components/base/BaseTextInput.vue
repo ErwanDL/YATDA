@@ -5,7 +5,7 @@
             :rows="rows"
             :class="[...classes, 'multiline-input']"
             :maxlength="maxLength || ''"
-            v-bind:value="value"
+            :value="value"
             v-on:input="$emit('input', $event.target.value)"
         />
         <input
@@ -15,7 +15,7 @@
             :style="inputStyle"
             :class="classes"
             :maxlength="maxLength || ''"
-            v-bind:value="value"
+            :value="value"
             v-on:input="$emit('input', $event.target.value)"
         />
         <label class="base-input-label label">{{ label }}</label>
