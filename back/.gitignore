@@ -1,0 +1,5 @@
+*.db
+config.py
+
+.mypy_cache
+*.pyc
