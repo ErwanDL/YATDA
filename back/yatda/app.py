@@ -6,12 +6,14 @@ from typing import Callable, Optional
 
 from flask import Flask, abort, g, request
 from flask.wrappers import Response
+from flask_cors import CORS
 
 DIRNAME = Path(__file__).parent
 
 
 app = Flask(__name__)
 app.config.from_object("config")
+CORS(app)
 
 
 @app.before_request
@@ -43,7 +45,7 @@ def specific_user(username: str):
     if request.method == "GET":
         return get_user_tasks(username)
     if request.method == "PUT":
-        return update_user_tasks(username, request.form.get("tasks"))
+        return update_user_tasks(username, request.json)
     if request.method == "DELETE":
         return delete_user(username)
 
