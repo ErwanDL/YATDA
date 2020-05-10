@@ -1,5 +1,5 @@
 <template>
-    <div class="cards">
+    <div v-if="isValidUser" class="cards">
         <template v-for="(task, index) in currentTasks">
             <TaskCard
                 @update="updateTask($event, index)"
@@ -10,6 +10,11 @@
         </template>
         <NewCardButton @click="pushNewTask()" class="new-card-button" />
     </div>
+    <h2 align="center" style="margin: 20%;" v-else>
+        There is no registered user with the name {{ user }}.
+        Ensure you have not mistyped the URL, or if you do not have an
+        account contact the app's administrator.
+    </h2>
 </template>
 
 <script lang="ts">
@@ -28,18 +33,23 @@ export default Vue.extend({
         return {
             lastSyncedTasks: [] as TaskType[],
             currentTasks: [] as TaskType[],
+            isValidUser: false,
         };
     },
-    mounted() {
-        getUserData("erwan").then((tasksData: TaskType[]) => {
+    async mounted() {
+        try {
+            const tasksData = await getUserData(this.user);
             this.currentTasks = tasksData;
             this.lastSyncedTasks = tasksData;
-        });
+            this.isValidUser = true;
+        } catch {
+            this.isValidUser = false;
+        }
     },
     methods: {
         async syncDataWithAPI(): Promise<void> {
             try {
-                await putUpdatedUserData("erwan", this.currentTasks);
+                await putUpdatedUserData(this.user, this.currentTasks);
             } catch {
                 this.currentTasks = this.lastSyncedTasks;
             }
@@ -72,6 +82,11 @@ export default Vue.extend({
         },
         generateNextTaskID(): number {
             return generateId(this.currentTasks);
+        },
+    },
+    computed: {
+        user(): string {
+            return window.location.pathname.slice(1);
         },
     },
     components: {
