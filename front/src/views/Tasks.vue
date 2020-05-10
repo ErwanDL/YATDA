@@ -1,0 +1,97 @@
+<template>
+    <div class="cards">
+        <template v-for="(task, index) in currentTasks">
+            <TaskCard
+                @update="updateTask($event, index)"
+                @delete="deleteTask(index)"
+                :key="task.id"
+                :task="task"
+            />
+        </template>
+        <NewCardButton @click="pushNewTask()" class="new-card-button" />
+    </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import TaskCard from "@/components/TaskCard.vue";
+import NewCardButton from "@/components/NewCardButton.vue";
+// @ts-ignore (false positive)
+import { getUserData, putUpdatedUserData } from "@/services/tasksService.ts";
+// @ts-ignore (false positive)
+import { TaskType } from "@/types.ts";
+// @ts-ignore (false positive)
+import { generateId } from "@/utils.ts";
+
+export default Vue.extend({
+    data() {
+        return {
+            lastSyncedTasks: [] as TaskType[],
+            currentTasks: [] as TaskType[],
+        };
+    },
+    mounted() {
+        getUserData("erwan").then((tasksData: TaskType[]) => {
+            this.currentTasks = tasksData;
+            this.lastSyncedTasks = tasksData;
+        });
+    },
+    methods: {
+        async syncDataWithAPI(): Promise<void> {
+            try {
+                await putUpdatedUserData("erwan", this.currentTasks);
+            } catch {
+                this.currentTasks = this.lastSyncedTasks;
+            }
+        },
+        updateTask(modifiedTask: TaskType, index: number): void {
+            this.currentTasks = [
+                ...this.currentTasks.slice(0, index),
+                modifiedTask,
+                ...this.currentTasks.slice(index + 1),
+            ];
+            this.syncDataWithAPI();
+        },
+        pushNewTask(): void {
+            this.currentTasks = [
+                ...this.currentTasks,
+                {
+                    id: this.generateNextTaskID(),
+                    title: "New task",
+                    subtasks: [],
+                },
+            ];
+            this.syncDataWithAPI();
+        },
+        deleteTask(index: number): void {
+            this.currentTasks = [
+                ...this.currentTasks.slice(0, index),
+                ...this.currentTasks.slice(index + 1),
+            ];
+            this.syncDataWithAPI();
+        },
+        generateNextTaskID(): number {
+            return generateId(this.currentTasks);
+        },
+    },
+    components: {
+        TaskCard,
+        NewCardButton,
+    },
+});
+</script>
+
+<style lang="scss">
+.cards {
+    padding-top: 20px;
+    width: 70%;
+    min-width: 350px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.new-card-button {
+    margin: 60px 120px 60px 120px;
+}
+</style>

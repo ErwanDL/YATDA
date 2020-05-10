@@ -7,6 +7,7 @@
             :maxlength="maxLength || ''"
             :value="value"
             v-on:input="$emit('input', $event.target.value)"
+            v-on:blur="$emit('blur', $event.target.value)"
         />
         <input
             v-else
@@ -17,6 +18,7 @@
             :maxlength="maxLength || ''"
             :value="value"
             v-on:input="$emit('input', $event.target.value)"
+            v-on:blur="$emit('blur', $event.target.value)"
         />
         <label class="base-input-label label">{{ label }}</label>
     </div>

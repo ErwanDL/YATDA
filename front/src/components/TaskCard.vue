@@ -13,9 +13,7 @@
             <table>
                 <tr>
                     <th></th>
-                    <th style="text-align: left; padding-left: 0.5em;">
-                        Subtasks
-                    </th>
+                    <th style="text-align: left; padding-left: 0.5em;">Subtasks</th>
                     <th style="width: 15%;">Duration</th>
                     <th style="width: 10%;"></th>
                 </tr>
@@ -45,8 +43,7 @@
                 @click="$emit('delete')"
                 color="error"
                 style="alignSelf: flex-end;"
-                >Archive task</base-button
-            >
+            >Archive task</base-button>
         </div>
     </BaseCard>
 </template>
@@ -55,9 +52,9 @@ import Vue from "vue";
 import Subtask from "@/components/Subtask.vue";
 import PlusSign from "@/icons/PlusSign.vue";
 // @ts-ignore (false positive)
-import { TaskType, SubtaskType } from "@/components/types.ts";
+import { TaskType, SubtaskType } from "@/types.ts";
 // @ts-ignore (false positive)
-import KeygenMixin from "@/components/mixins/KeygenMixin";
+import { generateId } from "@/utils.ts";
 
 export default Vue.extend({
     props: {
@@ -93,8 +90,7 @@ export default Vue.extend({
                 subtasks: [
                     ...this.$props.task.subtasks,
                     {
-                        // @ts-ignore (false positive)
-                        id: this.generateKey(),
+                        id: this.generateNextSubTaskID(),
                         description: "New subtask",
                         duration: 1,
                         completed: false,
@@ -111,12 +107,14 @@ export default Vue.extend({
                 ],
             });
         },
+        generateNextSubTaskID(): number {
+            return generateId(this.$props.task.subtasks);
+        },
     },
     components: {
         Subtask,
         PlusSign,
     },
-    mixins: [KeygenMixin],
 });
 </script>
 <style lang="scss" scoped>

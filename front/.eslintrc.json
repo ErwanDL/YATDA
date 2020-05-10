@@ -37,6 +37,7 @@
                 "tsx": "never"
             }
         ],
+        "import/prefer-default-export": "off",
         "@typescript-eslint/ban-ts-ignore": "off"
     }
 }

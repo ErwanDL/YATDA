@@ -1,15 +1,12 @@
 <template>
     <tr :class="['row', { strikeout: completed }]">
         <td>
-            <BaseCheckbox
-                :value="completed"
-                @input="update('completed', $event)"
-            />
+            <BaseCheckbox :value="completed" @input="update('completed', $event)" />
         </td>
         <td>
             <BaseTextInput
                 :value="description"
-                @input="update('description', $event)"
+                @blur="update('description', $event)"
                 :max-length="50"
             />
         </td>
