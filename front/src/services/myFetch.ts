@@ -1,6 +1,8 @@
+import { apiBaseUrl } from "@/config.ts";
+
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-const baseUrl = new URL("http://localhost:5000");
+const baseUrl = new URL(apiBaseUrl);
 
 async function myFetch(
     endpoint: string,
