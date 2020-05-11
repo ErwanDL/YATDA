@@ -6,7 +6,7 @@
                         font-weight: 400;
                         margin-top: 0.3em;
                         margin-bottom: 1em;"
-            @input="update('title', $event)"
+            @blur="update('title', $event)"
             :max-length="30"
         />
         <div v-if="task.subtasks.length > 0">
