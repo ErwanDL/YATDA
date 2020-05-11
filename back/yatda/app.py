@@ -12,7 +12,7 @@ DIRNAME = Path(__file__).parent
 
 
 app = Flask(__name__)
-app.config.from_object("config")
+app.config.from_object("yatda.config")
 CORS(app)
 
 
