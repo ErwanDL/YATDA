@@ -1,15 +1,11 @@
-import { apiBaseUrl } from "@/config.ts";
-
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE";
-
-const baseUrl = new URL(apiBaseUrl);
 
 async function myFetch(
     endpoint: string,
     method: RequestMethod = "GET",
     body?: string,
 ): Promise<any> {
-    const response = await fetch(baseUrl + endpoint, {
+    const response = await fetch(process.env.VUE_APP_API_BASE_URL + endpoint, {
         headers: {
             "Content-Type": "application/json",
         },

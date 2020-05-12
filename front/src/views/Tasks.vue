@@ -11,9 +11,9 @@
         <NewCardButton @click="pushNewTask()" class="new-card-button" />
     </div>
     <h2 align="center" style="margin: 20%;" v-else>
-        There is no registered user with the name {{ user }}.
-        Ensure you have not mistyped the URL, or if you do not have an
-        account contact the app's administrator.
+        There is no registered user with the name {{ user }}. Ensure you have
+        not mistyped the URL, or if you do not have an account contact the app's
+        administrator.
     </h2>
 </template>
 
