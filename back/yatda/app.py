@@ -18,7 +18,7 @@ CORS(app)
 
 @app.before_request
 def open_db_connection():
-    g.db = shelve.open(str(DIRNAME.parent / "users.db"))
+    g.db = shelve.open(str(DIRNAME.parent / "users"))
 
 
 @app.after_request
