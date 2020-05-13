@@ -4,11 +4,12 @@
             <TaskCard
                 @update="updateTask($event, index)"
                 @delete="deleteTask(index)"
+                class="card"
                 :key="task.id"
                 :task="task"
             />
         </template>
-        <NewCardButton @click="pushNewTask()" class="new-card-button" />
+        <NewCardButton @click="pushNewTask()" class="card" />
     </div>
     <h2 align="center" style="margin: 20%;" v-else>
         There is no registered user with the name {{ user }}. Ensure you have
@@ -107,7 +108,7 @@ export default Vue.extend({
     flex-wrap: wrap;
 }
 
-.new-card-button {
-    margin: 60px 120px 60px 120px;
+.card {
+    margin: 20px;
 }
 </style>

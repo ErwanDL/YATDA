@@ -5,9 +5,10 @@
         </div>
         <div :class="['inputs', { strikeout: completed }]">
             <BaseTextInput
+                class="description-input"
                 :value="description"
                 @blur="update('description', $event)"
-                :max-length="50"
+                :max-length="40"
             />
             <div class="duration">
                 <BaseTextInput
@@ -84,6 +85,7 @@ export default Vue.extend({
 .inputs {
     position: relative;
     display: flex;
+    flex-grow: 1;
     &::after {
         content: " ";
         position: absolute;
@@ -92,6 +94,10 @@ export default Vue.extend({
         width: 0%;
         transition: width 0.25s ease-out;
     }
+}
+
+.description-input {
+    flex-grow: 1;
 }
 
 .duration {

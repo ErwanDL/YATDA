@@ -7,9 +7,9 @@
                         margin-top: 0.3em;
                         margin-bottom: 1em;"
             @blur="update('title', $event)"
-            :max-length="30"
+            :max-length="25"
         />
-        <div v-if="task.subtasks.length > 0">
+        <div class="subtasks" v-if="task.subtasks.length > 0">
             <div class="list-header">
                 <div>Subtasks</div>
                 <div>Duration</div>
@@ -115,6 +115,12 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .container {
     width: $card-width;
+}
+
+.subtasks {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .list-header {

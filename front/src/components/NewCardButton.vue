@@ -15,6 +15,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .container {
     display: flex;
+    width: $card-width;
     flex-direction: column;
     align-items: center;
     padding: 1em;

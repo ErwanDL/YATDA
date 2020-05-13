@@ -20,7 +20,6 @@ export default Vue.extend({
     border: none;
     border-radius: 5px;
     padding: 1em;
-    margin: 1em;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
