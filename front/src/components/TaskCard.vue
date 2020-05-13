@@ -10,23 +10,18 @@
             :max-length="30"
         />
         <div v-if="task.subtasks.length > 0">
-            <table>
-                <tr>
-                    <th></th>
-                    <th style="text-align: left; padding-left: 0.5em;">Subtasks</th>
-                    <th style="width: 15%;">Duration</th>
-                    <th style="width: 10%;"></th>
-                </tr>
-                <template v-for="(subtask, index) in task.subtasks">
-                    <Subtask
-                        :key="subtask.id"
-                        v-bind="subtask"
-                        @update="updateSubtask($event, index)"
-                        @delete="deleteSubtask(index)"
-                    />
-                </template>
-            </table>
-
+            <div class="list-header">
+                <div>Subtasks</div>
+                <div>Duration</div>
+            </div>
+            <template v-for="(subtask, index) in task.subtasks">
+                <Subtask
+                    :key="subtask.id"
+                    v-bind="subtask"
+                    @update="updateSubtask($event, index)"
+                    @delete="deleteSubtask(index)"
+                />
+            </template>
             <p style="margin-top: 2em;">Only {{ daysLeft }} of work left !</p>
         </div>
 
@@ -122,7 +117,12 @@ export default Vue.extend({
     width: $card-width;
 }
 
-th {
+.list-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 45px 0 45px;
+    width: 100%;
     font-size: 0.9em;
     font-weight: 200;
     color: $color-light-text;
