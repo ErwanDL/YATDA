@@ -109,8 +109,7 @@ export default Vue.extend({
 }
 
 .days {
-    display: flex;
-    align-items: center;
+    margin-top: 1px;
     color: $color-light-text;
     font-size: 0.9em;
     margin-left: 1px;
