@@ -2,6 +2,7 @@
     <div class="base-input-container">
         <textarea
             v-if="multiline"
+            ref="input"
             :rows="rows"
             :class="[...classes, 'multiline-input']"
             :maxlength="maxLength || ''"
@@ -11,6 +12,7 @@
         />
         <input
             v-else
+            ref="input"
             v-bind="$attrs"
             type="text"
             :style="inputStyle"
@@ -50,6 +52,12 @@ export default Vue.extend({
         inputStyle: {
             type: String,
             default: "",
+        },
+    },
+    methods: {
+        focus(): void {
+            // @ts-ignore
+            this.$refs.input.focus();
         },
     },
     computed: {

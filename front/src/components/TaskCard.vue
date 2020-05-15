@@ -2,6 +2,7 @@
     <BaseCard class="container">
         <BaseTextInput
             :value="task.title"
+            ref="title"
             inputStyle="font-size: 1.3em;
                         font-weight: 400;
                         margin-top: 0.3em;
@@ -18,6 +19,7 @@
                 <Subtask
                     :key="subtask.id"
                     v-bind="subtask"
+                    :ref="index"
                     @update="updateSubtask($event, index)"
                     @delete="deleteSubtask(index)"
                 />
@@ -86,11 +88,15 @@ export default Vue.extend({
                     ...this.$props.task.subtasks,
                     {
                         id: this.generateNextSubTaskID(),
-                        description: "New subtask",
+                        description: "",
                         duration: 1,
                         completed: false,
                     },
                 ],
+            });
+            this.$nextTick(() => {
+                // @ts-ignore
+                this.$refs[this.task.subtasks.length - 1][0].focusInput();
             });
         },
         deleteSubtask(index: number): void {
@@ -104,6 +110,10 @@ export default Vue.extend({
         },
         generateNextSubTaskID(): number {
             return generateId(this.$props.task.subtasks);
+        },
+        focusTitle(): void {
+            // @ts-ignore
+            this.$refs.title.focus();
         },
     },
     components: {

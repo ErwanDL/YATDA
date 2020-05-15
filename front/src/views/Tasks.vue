@@ -3,6 +3,7 @@
         <template v-for="(task, index) in currentTasks">
             <TaskCard
                 @update="updateTask($event, index)"
+                :ref="index"
                 @delete="deleteTask(index)"
                 class="card"
                 :key="task.id"
@@ -73,6 +74,10 @@ export default Vue.extend({
                 },
             ];
             this.syncDataWithAPI();
+            this.$nextTick(() => {
+                // @ts-ignore
+                this.$refs[this.currentTasks.length - 1][0].focusTitle();
+            });
         },
         deleteTask(index: number): void {
             this.currentTasks = [

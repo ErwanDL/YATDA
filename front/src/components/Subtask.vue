@@ -6,6 +6,7 @@
         <div :class="['inputs', { strikeout: completed }]">
             <BaseTextInput
                 class="description-input"
+                ref="description"
                 :value="description"
                 @blur="update('description', $event)"
                 :max-length="40"
@@ -56,10 +57,9 @@ export default Vue.extend({
                 this.update("duration", parseFloat(newValue));
             }
         },
-    },
-    computed: {
-        console() {
-            return console;
+        focusInput() {
+            // @ts-ignore
+            this.$refs.description.focus();
         },
     },
     components: {
