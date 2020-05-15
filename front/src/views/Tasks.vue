@@ -104,9 +104,12 @@ export default Vue.extend({
 
 <style lang="scss">
 .cards {
-    padding-top: 20px;
-    width: 70%;
-    min-width: 350px;
+    width: 100%;
+    padding: 20px 50px 20px 50px;
+    @media (max-width: $mobile-width) {
+        padding-right: 0;
+        padding-left: 0;
+    }
     display: flex;
     align-items: center;
     justify-content: center;

@@ -22,6 +22,9 @@ h1 {
     font-family: "Lucida Console", Monaco, monospace;
     margin-bottom: 8px;
     margin-left: 10px;
+    @media (max-width: $mobile-width) {
+        display: none;
+    }
 }
 
 .container {
