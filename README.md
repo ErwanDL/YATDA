@@ -2,7 +2,7 @@
 
 YATDA is a simple but useful productivity tool : list the tasks and subtasks that you need to get done, and easily estimate the amount of time needed. Your tasks are always synced with your account, so you can access them on any device.
 
-![Screenshot of YATDA](./yatda-screenshot.png)
+<kbd><img src="./yatda-screenshot.png" alt="YATDA screenshot"></kbd>
 
 ## Installation
 
