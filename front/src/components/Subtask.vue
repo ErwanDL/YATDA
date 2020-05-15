@@ -98,6 +98,7 @@ export default Vue.extend({
 
 .description-input {
     flex-grow: 1;
+    margin: 0.3em 0 0.2em 0;
 }
 
 .duration {
