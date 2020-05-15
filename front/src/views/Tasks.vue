@@ -69,7 +69,7 @@ export default Vue.extend({
                 ...this.currentTasks,
                 {
                     id: this.generateNextTaskID(),
-                    title: "New task",
+                    title: "",
                     subtasks: [],
                 },
             ];
