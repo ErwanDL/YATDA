@@ -27,3 +27,20 @@ jobs:
           host: ${{ secrets.HOST }}
           username: erwan
           privateKey: ${{ secrets.SSH_KEY }}
+
+  deploy-back:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update repo and restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: erwan
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            source .profile
+            cd YATDA/back
+            git pull
+            poetry install
+            sudo service yatda restart
