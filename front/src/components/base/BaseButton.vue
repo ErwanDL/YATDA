@@ -70,7 +70,7 @@ button:enabled {
 }
 
 .contained {
-    box-shadow: 0 1px 2px $color-shadow;
+    box-shadow: 0 0px 0px $color-shadow;
     color: $color-white-bg;
     transition: box-shadow 0.15s ease-out, transform 0.15s ease-out;
 }
@@ -79,7 +79,7 @@ button:enabled {
     background: $color-darker-bg;
 }
 .contained:hover:enabled:not(:active) {
-    box-shadow: 0 2px 6px $color-shadow;
+    box-shadow: 0 1px 2px $color-shadow;
     transform: translate(0px, -1px);
     filter: brightness(105%);
 }

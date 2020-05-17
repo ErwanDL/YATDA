@@ -40,7 +40,7 @@
                 @click="$emit('delete')"
                 color="error"
                 style="alignSelf: flex-end;"
-            >Archive task</base-button>
+            >Delete task</base-button>
         </div>
     </BaseCard>
 </template>

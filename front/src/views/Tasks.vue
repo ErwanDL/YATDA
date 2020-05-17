@@ -1,10 +1,18 @@
 <template>
     <div v-if="isValidUser" class="cards">
+        <BaseModal
+            :visible="taskToDelete !== null"
+            title="Confirmation"
+            details="Are you certain you want to delete this task ? This action is irreversible."
+            hasCancelButton
+            @confirm="confirmDeleteTask(taskToDelete)"
+            @cancel="taskToDelete = null"
+        />
         <template v-for="(task, index) in currentTasks">
             <TaskCard
                 @update="updateTask($event, index)"
                 :ref="index"
-                @delete="deleteTask(index)"
+                @delete="taskToDelete = index"
                 class="card"
                 :key="task.id"
                 :task="task"
@@ -36,6 +44,7 @@ export default Vue.extend({
             lastSyncedTasks: [] as TaskType[],
             currentTasks: [] as TaskType[],
             isValidUser: false,
+            taskToDelete: null,
         };
     },
     async mounted() {
@@ -79,11 +88,12 @@ export default Vue.extend({
                 this.$refs[this.currentTasks.length - 1][0].focusTitle();
             });
         },
-        deleteTask(index: number): void {
+        confirmDeleteTask(index: number): void {
             this.currentTasks = [
                 ...this.currentTasks.slice(0, index),
                 ...this.currentTasks.slice(index + 1),
             ];
+            this.taskToDelete = null;
             this.syncDataWithAPI();
         },
         generateNextTaskID(): number {
