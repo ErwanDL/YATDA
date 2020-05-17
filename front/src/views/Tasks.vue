@@ -1,30 +1,30 @@
 <template>
-    <div v-if="isValidUser" class="cards">
-        <BaseModal
-            :visible="taskToDelete !== null"
-            title="Confirmation"
-            details="Are you certain you want to delete this task ? This action is irreversible."
-            hasCancelButton
-            @confirm="confirmDeleteTask(taskToDelete)"
-            @cancel="taskToDelete = null"
-        />
-        <template v-for="(task, index) in currentTasks">
-            <TaskCard
-                @update="updateTask($event, index)"
-                :ref="index"
-                @delete="taskToDelete = index"
-                class="card"
-                :key="task.id"
-                :task="task"
+    <div class="container">
+        <div v-if="!isRegisteredUser" class="unregistered-user-alert">
+            <i>This is an offline, test version of yatda : your tasks will only be saved locally on this computer. Contact the admin to get an online synchronized account.</i>
+        </div>
+        <div class="cards">
+            <BaseModal
+                :visible="taskToDelete !== null"
+                title="Confirmation"
+                details="Are you certain you want to delete this task ? This action is irreversible."
+                hasCancelButton
+                @confirm="confirmDeleteTask(taskToDelete)"
+                @cancel="taskToDelete = null"
             />
-        </template>
-        <NewCardButton @click="pushNewTask()" class="card" />
+            <template v-for="(task, index) in currentTasks">
+                <TaskCard
+                    @update="updateTask($event, index)"
+                    :ref="index"
+                    @delete="taskToDelete = index"
+                    class="card"
+                    :key="task.id"
+                    :task="task"
+                />
+            </template>
+            <NewCardButton @click="pushNewTask()" class="card" />
+        </div>
     </div>
-    <h2 align="center" style="margin: 20%;" v-else>
-        There is no registered user with the name {{ user }}. Ensure you have
-        not mistyped the URL, or if you do not have an account contact the app's
-        administrator.
-    </h2>
 </template>
 
 <script lang="ts">
@@ -37,32 +37,44 @@ import { getUserData, putUpdatedUserData } from "@/services/tasksService.ts";
 import { TaskType } from "@/types.ts";
 // @ts-ignore (false positive)
 import { generateId } from "@/utils.ts";
+import {
+    getLocalStorageData,
+    updateLocalStorageTasks,
+    // @ts-ignore (false positive)
+} from "@/services/localStorageService.ts";
 
 export default Vue.extend({
     data() {
         return {
             lastSyncedTasks: [] as TaskType[],
             currentTasks: [] as TaskType[],
-            isValidUser: false,
+            isRegisteredUser: false,
             taskToDelete: null,
         };
     },
     async mounted() {
+        let tasksData: TaskType[];
         try {
-            const tasksData = await getUserData(this.user);
+            tasksData = await getUserData(this.user);
             this.currentTasks = tasksData;
             this.lastSyncedTasks = tasksData;
-            this.isValidUser = true;
+            this.isRegisteredUser = true;
         } catch {
-            this.isValidUser = false;
+            tasksData = await getLocalStorageData();
+            this.currentTasks = tasksData;
+            this.lastSyncedTasks = tasksData;
         }
     },
     methods: {
         async syncDataWithAPI(): Promise<void> {
-            try {
-                await putUpdatedUserData(this.user, this.currentTasks);
-            } catch {
-                this.currentTasks = this.lastSyncedTasks;
+            if (this.isRegisteredUser) {
+                try {
+                    await putUpdatedUserData(this.user, this.currentTasks);
+                } catch {
+                    this.currentTasks = this.lastSyncedTasks;
+                }
+            } else {
+                await updateLocalStorageTasks(this.currentTasks);
             }
         },
         updateTask(modifiedTask: TaskType, index: number): void {
@@ -113,6 +125,24 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.unregistered-user-alert {
+    width: 100%;
+    min-height: 40px;
+    background-color: $color-error;
+    color: $color-white-bg;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+    text-align: center;
+}
+
 .cards {
     width: 100%;
     padding: 20px 50px 20px 50px;
