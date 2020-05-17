@@ -15,9 +15,9 @@
                 <BaseTextInput
                     style="margin: 0;"
                     inputStyle="text-align: right;"
-                    :max-length="3"
                     :value="duration.toString()"
-                    @input="updateDuration($event)"
+                    @keypress="validateDuration"
+                    @blur="update('duration', Number($event))"
                 />
                 <span class="days">d</span>
             </div>
@@ -50,12 +50,17 @@ export default Vue.extend({
         update<T>(key: string, newValue: T): void {
             this.$emit("update", { ...this.$props, [key]: newValue });
         },
-        updateDuration(newValue: string): void {
-            if (newValue === "") {
-                this.update("duration", 0);
-            } else if (newValue.match(/^[0-9]*(\.[0-9]*)?$/g)) {
-                this.update("duration", parseFloat(newValue));
+        validateDuration(event: InputEvent): boolean {
+            // @ts-ignore
+            const newValue: string = event.target.value + event.key;
+            if (
+                newValue.match(/^[0-9]*(\.[0-9]*)?$/g) &&
+                newValue.length <= 3
+            ) {
+                return true;
             }
+            event.preventDefault();
+            return false;
         },
         focusInput() {
             // @ts-ignore

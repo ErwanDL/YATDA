@@ -28,7 +28,6 @@
         </div>
 
         <p v-else>You have not added any subtask yet.</p>
-
         <div class="buttons-section">
             <base-button @click="pushNewSubtask()" style="alignSelf: flex-end;">
                 <div style="display: flex;">

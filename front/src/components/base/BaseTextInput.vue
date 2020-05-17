@@ -7,8 +7,9 @@
             :class="[...classes, 'multiline-input']"
             :maxlength="maxLength || ''"
             :value="value"
-            v-on:input="$emit('input', $event.target.value)"
-            v-on:blur="$emit('blur', $event.target.value)"
+            @input="$emit('input', $event.target.value)"
+            @blur="$emit('blur', $event.target.value)"
+            @keypress="$emit('keypress', $event)"
         />
         <input
             v-else
@@ -19,8 +20,9 @@
             :class="classes"
             :maxlength="maxLength || ''"
             :value="value"
-            v-on:input="$emit('input', $event.target.value)"
-            v-on:blur="$emit('blur', $event.target.value)"
+            @input="$emit('input', $event.target.value)"
+            @blur="$emit('blur', $event.target.value)"
+            @keypress="$emit('keypress', $event)"
         />
         <label class="base-input-label label">{{ label }}</label>
     </div>
