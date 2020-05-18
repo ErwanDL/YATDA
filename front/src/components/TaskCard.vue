@@ -15,15 +15,17 @@
                 <div>Subtasks</div>
                 <div>Duration</div>
             </div>
-            <template v-for="(subtask, index) in task.subtasks">
+            <draggable v-model="task.subtasks" :move="onReorder">
                 <Subtask
+                    class="draggable-subtask"
+                    v-for="(subtask, index) in task.subtasks"
                     :key="subtask.id"
                     v-bind="subtask"
                     :ref="index"
                     @update="updateSubtask($event, index)"
                     @delete="deleteSubtask(index)"
                 />
-            </template>
+            </draggable>
             <p style="margin-top: 2em;">Only {{ daysLeft }} of work left !</p>
         </div>
 
@@ -39,12 +41,14 @@
                 @click="$emit('delete')"
                 color="error"
                 style="alignSelf: flex-end;"
-            >Delete task</base-button>
+                >Delete task</base-button
+            >
         </div>
     </BaseCard>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import draggable from "vuedraggable";
 import Subtask from "@/components/Subtask.vue";
 import PlusSign from "@/icons/PlusSign.vue";
 // @ts-ignore (false positive)
@@ -67,6 +71,9 @@ export default Vue.extend({
                 0,
             );
             return `${nbDays} day${nbDays > 1 ? "s" : ""}`;
+        },
+        subtasks(): SubtaskType[] {
+            return this.task.subtasks;
         },
     },
     methods: {
@@ -114,10 +121,17 @@ export default Vue.extend({
             // @ts-ignore
             this.$refs.title.focus();
         },
+        onReorder(): void {
+            this.$emit("update", {
+                ...this.$props.task,
+                subtasks: this.subtasks,
+            });
+        },
     },
     components: {
         Subtask,
         PlusSign,
+        draggable,
     },
 });
 </script>
@@ -141,6 +155,15 @@ export default Vue.extend({
     font-size: 0.9em;
     font-weight: 200;
     color: $color-light-text;
+}
+
+.draggable-subtask {
+    &:hover {
+        cursor: grab;
+    }
+    &:active {
+        cursor: grabbing;
+    }
 }
 
 .buttons-section {
